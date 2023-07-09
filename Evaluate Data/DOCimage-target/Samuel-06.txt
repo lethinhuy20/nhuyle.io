@@ -1,0 +1,117 @@
+scores. Now it is this list of previous board positions that
+is used to look up board positions while at a ply level of
+3 in the subsequent games. If a board position is found,
+its score has, in effect, already been backed up by three
+levels, and if it becomes etfective in determining the
+move to be made, it is a 6-ply score rather than a simple
+3-ply score. This new initial board position with its 6-ply
+score is, in turn, saved and ‘it may be encountered in a
+future game and the score backed up by an additional
+set of three levels, et cetera. This procedure is illustrated
+in Fig. 3. The incorporation of this variation, together
+with the simpler rote-learning feature. results in a fairly
+powerful learning technique which has been studied in
+some detail.
+Several additional features had to be incorporated into
+the program before it was practical to embark on learn-
+ing studies using this storage scheme. In the first place,
+it was necessary to impart a sense of direction to the pro-
+gram in order to force it to press on toward a win. To
+illustrate this, consider the situation of two kings against
+one king, which is a winning combination for practically
+all variations in board positions. In time, the program
+can be assumed to have stored all of these variations,
+each associated with a winning score. Now, if such a
+situation is encountered, the program will look ahead
+along all possible paths and each path will lead to a win-
+ning combination, in spite of the fact that only one of
+the possible initial moves may be along the direct path
+toward the win while all of the rest may be wasting time.
+How is the program to differentiate between these?
+A good solution is to keep a record of the ply value of
+the different board positions at all times and to make a
+further choice between board positions on this basis. If
+ahead, the program can be arranged to push directly
+toward the win while, if behind, it can be arranged to
+adopt delaying tactics. The most recent method used is
+to carry the effective ply along with the score by simply
+decreasing the magnitude of the score a small amount
+each time it is backed-up a ply level during the analyses.
+If the program is now faced with a choice of board posi-
+tions whose scores differ only by the ply number, it will
+automatically make the most advantageous choice,
+choosing a low-ply alternative if winning and a high-ply
+alternative if losing. The significance of this concept of a
+direction sense should not be overlooked. Even without
+“learning,” it is very important. Several of the early at-
+tempts at learning failed because the direction sense was
+not properly taken into account.
+Cataloging and culling stored information
+Since practical considerations limit the number of board
+positions which can be saved, and since the time to
+search through those that are saved can easily become
+unduly long, one must devise systems (1) to catalog
+boards that are saved, (2) to delete redundancies, and
+(3) to discard board positions which are not believed to
+be of much value. The most effective cataloging system
+found to date starts by standardizing all board positions,
+first by reversing the pieces and piece positions if it is a
+board position in which White is to move, so that all
+boards are reported as if it were Black’s turn to move.
+This reduces by nearly a factor of two the number of
+boards which must be saved. Board positions, in which
+all of the pieces are kings, can be reflected about the
+diagonals with a possible fourfold reduction in the num-
+ber which must be saved. A more compact board repre-
+sentation than the one employed during play is also used
+so as to minimize the storage requirements.
+After the board positions are standardized, they are
+grouped into records on the basis of (1) the number of
+pieces on the board, (2) the presence or absence of a
+piece advantage, (3) the side possessing this advantage,
+(4) the presence or absence of kings on the board. :(5) the
+side having the so-called “move,” or opposition advan-
+tage, and finally (6) the first moments of the pieces about
+normal and diagonal axes through the board. During
+play, newly acquired board positions are saved in the
+memory until a reasonable number have been accumu-
+lated, and they are then merged with those on the “mem-
+ory tape” and a new memory tape is produced. Board
+positions within a record are listed in a serial fashion,
+being sorted with respect to the words which define them.
+The records are arranged on the tape in the order that
+they are most likely to be needed during the course of a
+game; board positions with 12 picces to a side coming
+first, et cetera. This method of cataloging is very impor-
+tant because it cuts tape-searching time to a minimum.
+Reference must be made, of course, to the board posi-
+tions already saved, and this is done by reading the cor-
+rect record into the memory and searching through it by
+a dichotomous search procedure. Usually five or more
+records are held in memory at one time, the exact num-
+ber at any time depending upon the lengths of the par-
+ticular records in question. Normally, the program calls
+three or four new records into memory during each new
+move, making room for them as needed, by discarding
+the records which have been held the longest.
+Two different procedures have been found to be of
+value in limiting the number of board positions that are
+saved; one based on the frequency of use, and the sec-
+ond on the ply. To keep track of the frequency of use,
+an age term is carried along with the score. Each new
+board position to be saved is arbitrarily assigned an age.
+When reference is made to a stored board position,
+either to update its score or to utilize it in the look-
+ahead procedure, the age recorded for this board position
+is divided by two. This is called refreshing. Offsetting
+this, each board position is automatically aged by one
+unit at the memory merge times (normally occurring
+about once every 20 moves). When the age of any one
+board position reaches an arbitrary maximum value this
+board position is expunged from the record. This is a
+form of forgetting. New board positions which remain
+unused are soon forgotten, while board positions which
+are used several times in succession will be refreshed to
+such an extent that they will be remembered even if not
+used thereafter for a fairly long period of time. This form
+of refreshing and forgetting was adopted on the basis of

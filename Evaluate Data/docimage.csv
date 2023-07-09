@@ -1,0 +1,879 @@
+﻿name,ground_truth,CER_tesseract,WER_tesseract,CER_second,WER_second
+Samuel-01.jpg,"Some Studies in Machine Learning
+Using the Game of Checkers
+Arthur L. Samuel
+Abstract: Two machine-learning procedures have been investigated in some detail using the game of
+checkers. Enough work has been done to verify the fact that a computer can be programmed so that it will
+learn to play a better game of checkers than can be played by the person who wrote the program. Further-
+more, it can learn to do this in a remarkably short period of time (8 or 10 hours of machine-playing time)
+when given only the rules of the game, a sense of direction, and a redundant and incomplete list of
+parameters which are thought to have something to do with the game, but whose correct signs and relative
+weights are unknown and unspecified. The principles of machine learning verified by these ‘experiments
+are, of course, applicable to many other situations.
+Introduction
+The studies reported here have been concerned with the
+programming of a digital computer to behave in a way
+which. if done by human beings or animals, would be
+described as involving the process of learning. While
+this is not the place to dwell on the importance of ma-
+chine-learning procedures, or to discourse on the philo-
+sophical aspects,1 there is obviously a very large amount
+of work. now done by people, which is quite trivial in its
+demands on the intellect but does, nevertheless, involve
+some learning. We have at our command computers with
+adequate data-handling ability and with sufficient com-
+putational speed to make use of machine-learning tech-
+niques. but our knowledge of the basic principles of these
+techniques is still rudimentary. Lacking such knowledge,
+it is necessary to specify methods of problem solution in
+minute and exact detail, a time-consuming and costly
+procedure, Programming computers to learn from ex-
+perience should eventually eliminate the need for much
+of this detailed programming effort.
+General methods of approach
+At the outset it might be well to distinguish sharply be-
+tween two general approaches to the problem of machine
+learning. One method, which might be called the Neural-
+Net Approach. deals with the possibility of inducing
+learned behavior into a randomly connected switching
+net (or its simulation on a digital computer) as a result
+of a reward-and-punishment routine. A second, and
+Much more efficient approach, is to produce the equiva-
+lent of a highly organized network which has been de-
+signed to learn only certain specific things. The first
+method should lead to the development of general-pur-
+pose learning machines. A comparison between the size
+of the switching nets that can be reasonably constructed
+or simulated at the present time and the size of the neural
+nets used by animals, suggests that we have a long way
+to go before we obtain practical devices.2 The second
+procedure requires reprogramming for each new applica-
+tion, but it is capable of realization at the present time.
+The experiments to be described here were based on this
+second approach.
+Choice of problem
+For some years the writer has devoted his spare time to
+the subject of machine learning and has concentrated on
+the development of learning procedures as applied to
+games.3 A game provides a convenient vehicle for such
+study as contrasted with a problem taken from life, since
+many of the complications of detail are removed.
+Checkers, rather than chess,4-7 was chosen because the
+simplicity of its rules permits greater emphasis to be
+placed on learning techniques. Regardless of the relative
+merits of the two games as intellectual pastimes, it is fair
+to state that checkers contains all of the basic characteris-
+tics of an intellectual activity in which heuristic proce-
+dures and learning processes can play a major role and
+in which these processes can be evaluated.
+Some of these characteristics might well be enumer-
+ated. They are:
+(1) The activity must not be deterministic in the prac-
+tical sense. There exists no known algorithm which will
+guarantee a win or a draw in checkers, and the complete",,,,
+Samuel-02.jpg,"explorations of every possible path through a checker
+game would involve perhaps 1040 choices of moves
+which. at 3 choices per millimicrosecond, would still take
+1021 centuries to consider.
+(2) A definite goal must exist—the winning of the
+game—and at least one criterion or intermediate goal
+must exist which has a bearing on the achievement of the
+final goal and for which the sign should be known. In
+checkers the goal is to deprive the opponent of the pos-
+sibility of moving, and the dominant criterion is the
+number of pieces of each color on the board. The im-
+portance of having a known criterion will be discussed
+later.
+(3) The rules of the activity must be definite and they
+should be known. Games satisfy this requirement. Un-
+fortunately, many problems of economic importance do
+not. While in principle the determination of the rules can
+be a part of the learning process, this is a complication
+which might well be left until later.
+(4) There should be a background of knowledge con-
+cerning the activity against which the learning progress
+can be tested.
+(5) The activity should be one that is familiar to a
+substantial body of people so that the behavior of the
+Program can be made understandable to them. The
+ability to have the program play against human oppo-
+nents (or antagonists) adds spice to the study and, inci-
+dentally, provides a convincing demonstration for those
+who do not believe that machines can learn.
+Having settled on the game of checkers for our learn-
+ing studies, we must, of course, first program the com-
+puter to play legal checkers; that is, we must express the
+rules of the game in machine language and we must ar-
+range for the mechanics of accepting an opponent’s
+moves and of reporting the computer’s moves, together
+with all pertinent data desired by the experimenter. The
+general methods for doing this were described by
+Shannon8 in 1950 as applied to chess rather than check-
+ers. The basic program used in these experiments is quite
+similar to the program described by Strachey9 in 1952.
+The availability of a larger and faster machine (the
+IBM 704), coupled with many detailed changes in the
+programming procedure, leads to a fairly interesting
+game being played, even without any learning. The basic
+forms of the program will now be described.
+The basic checker-playing program
+The computer plays by looking ahead a few moves and
+by evaluating the resulting board positions much as a
+human player might do. Board positions are stored by
+sets of machine words, four words normally being used
+to represent any particular board position. Thirty-two bit
+positions (of the 36 available in an IBM 704 word) are,
+by convention, assigned to the 32 playing squares on the
+checkerboard, and pieces appearing on these squares are
+represented by 1’s appearing in the assigned bit positions
+of the corresponding word. “Looking-ahead” is prepared
+for by computing all possible next moves, starting with a
+given board position. The indicated moves are explored
+in turn by producing new board-position records cor-
+responding to the conditions after the move in question
+(the old board positions being saved to facilitate a return
+to the starting point) and the process can be repeated.
+This look-ahead procedure is carried several moves in
+advance, as illustrated in Fig. 1. The resulting board po-
+sitions are then scored in terms of their relative value to
+the machine.
+The standard method of scoring the resulting board
+positions has been in terms of a linear polynomial. A
+number of schemes of an abstract sort were tried for
+evaluating board positions without regard to the usual
+checker concepts, but none of these was successful.10
+One way of looking at the various terms in the scoring
+polynomial is that those terms with numerically small
+coefficients should measure criteria related as intermedi-
+ate goals to the criteria measured by the larger terms.
+The achievement of these intermediate goals indicates
+that the machine is going in the right direction, such that
+the larger terms will eventually increase. If the program
+could look far enough ahead we need only ask, “Is the
+machine still in the game?” Since it cannot look this
+far ahead in the usual situation, we must substitute some-
+thing else, say the piece ratio, and let the machine con-
+tinue the look-ahead until one side has gained a piece
+advantage. But even this is not always possible, so we
+have the program test to see if the machine has gained a
+positional advantage, et cetera. Numerical measures of
+these various properties of the board positions are then
+added together (each with an appropriate coefficient
+which defines its relative importance) to form the evalu-
+ation polynomial.
+More specifically, as defined by the rules for checkers,
+the dominant scoring parameter is the inability for one
+side or the other to move.12
+ Since this can occur but once
+in any game, it is tested for separately and is not included
+in the scoring polynomial as tabulated by the computer
+during play. The next parameter to be considered is the
+relative piece advantage. It is always assumed that it is
+to the machine's advantage to reduce the number of the
+opponent's pieces as compared to its own. A reversal of
+the sign of this. term will, in fact, cause the program to
+play “give-away” checkers, and with learning it can only
+learn to play a better and better give-away game. Were
+the sign of this term not known by the programmer it
+could, of course, be determined by tests, but it must be
+fixed by the experimenter and, in effect, it is one of the
+instructions to the machine defining its task. The nu-
+merical computation of the piece advantage has been ar-
+ranged in such a way as to account for the well-known
+property that it is usually to one’s advantage to trade
+pieces when one is ahead and to avoid trades when
+behind. Furthermore, it is assumed that kings are more
+valuable than pieces, the relative weights assigned to
+them being three to two.13 This ratio means that the
+program will trade three men for two kings, or two
+kings for three men, if by so doing it can obtain some
+positional advantage.",,,,
+Samuel-04.jpg,"The choice for the parameters to follow this first term
+of the scoring polynomial and their coctlicients then be-
+comes a matter of concern. Two courses are open—
+cither the experimenter can decide what these subse-
+quent terms are to be, or he can arrange for the program
+to make the selection. We will discuss the first case in
+some detail in connection with the rote-learning studies
+and leave for a later section the discussion of various
+program methods of selecting parameters and adjusting
+their coefficients.
+It is not satisfactory to select the initial move which
+leads to the board position with the highest score, since
+to reach this position would require the cooperation of
+the opponent. Instead. an analysis must be made pro-
+ceeding backward from the evaluated board positions
+through the “tree” of possible moves, each time with
+consideration of the intent of the side whose move is
+being examined, assuming that the opponent would
+always attempt to minimize the machine’s score while
+the machine acts to maximize its score. At each branch
+point, then, the corresponding board position is given
+the score of the board position which would result from
+the most favorable move. Carrying this “minimax” pro-
+cedure back to the starting point results in the selection
+of a “best move.” The score of the board position at the
+end of the most likely chain is also brought back, and for
+learning purposes this score is now assigned to the pres-
+ent board position. This process is shown in Fig. 2. The
+best move is executed, reported on the console lights,
+and tabulated by the printer.
+The opponent is then permitted to make his move,
+which can be communicated to the machine either by
+means of console switches or by means of punched
+cards. The computer verifies the legality of the oppo-
+nent’s move, rejecting! or accepting it, and the process
+is repeated. When the program can look ahead and pre-
+dict a win, this fact is reported on the printer. Similarly,
+the program concedes when it sces that it is going to
+lose.
+Ply limitations
+Playing-time considerations make it necessary to limit
+the look-ahead distance to some fairly small value. This
+distance is defined as the ply (a ply of 2 consisting of
+one proposed move by the machine and the anticipated
+reply by the opponent). The ply is not fixed but depends
+upon the dynamics of the situation, and it varies from
+move to move and from branch to branch during the
+move analysis. A great many schemes of adjusting the
+look-ahead distance have been tried at various times,
+some of them quite complicated. The most effective one,
+although quite detailed, is simple in concept and is as
+follows. The program always looks ahead a minimum
+distance, which for the opening game and without learn-
+ing is usually set at three moves. At this minimum ply
+the program will evaluate the board position if none of
+the following conditions occurs: (1) the next move is a
+jump, (2) the last move was a jump, or (3) an exchange
+offer is possible. If any one of these conditions exists, the
+program continues looking ahead. At a ply of 4 the
+program will stop and evaluate the resulting board posi-
+tion if conditions (1) and (3) above are not met. Ata ply
+of 5 or greater, the program stops the look-ahead when-
+ever the next ply level does not offer a jump. At a ply
+of 11 or greater, the program will terminate the look-
+ahead, even if the next move is to be a jump, should one
+side at this time be ahead by more than two kings (to
+prevent the needless exploration of obviously losing or
+winning sequences). The program stops at a ply of 20
+regardless of all conditions (since the memory space for
+the look-ahead moves is then exhausted) and an adjust-
+ment in score is made to allow for the pending jump.
+Finally, an adjustment is made in the levels of the break
+points between the different conditions when time is
+saved through rote learning (see below) and when the
+total number of pieces on the board falls below an arbi-
+trary number. All break points are determined by single
+data words which can be changed at any time by manual
+intervention.
+This tying of the ply with board conditions achieves
+three desired results. In the first place. it permits board
+evaluations to be made under conditions of relative sta-
+bility for so-called dead positions, as defined by Turing.15
+Secondly, it causes greater surveillance of those paths
+which offer better opportunities for gaining or losing an
+advantage. Finally, since branching is usually seriously
+restricted by a jump situation, the total number of board
+positions and moves to be considered is still held down
+to a reasonable number and is more equitably distributed
+between the various possible initial moves.
+As a practical matter, machine-playing time usually
+has been limited to approximately 30 seconds per move.
+Elaborate table-lookup procedures, fast sorting and
+searching procedures, and a variety of new programming
+tricks were developed, and full use was made of all of the
+resources of the IBM 704 to increase the operating speed
+as much as possible. One can, of course, set the playing
+time at any desired value by adjustments of the permitted
+ply; too small a ply results in a bad game and too large
+a ply makes the game unduly costly in terms of machine
+time.
+Other modes of play
+For study purposes the program was written to accom-
+modate several variations of this basic plan. One of these
+permits the program to play against itself, that is. to play
+both sides of the game. This mode of play has been
+found to be especially good during the early stages of
+learning.
+The program can also follow book games presented to
+it either on cards or on magnetic tape. When operating
+in this mode, the program decides at each point in the
+game on its next move in the usual way and reports this
+proposed move. Instead of actually making this move.
+the program refers to the stored record of a book game
+and makes the book move. The program records its
+evaluation of the two moves, and it also counts and re-
+ports the number of possible moves which the program",,,,
+Samuel-05.jpg,"MACHINE CHOOSES BRANCH
+WITH LARGEST SCORE
+OPPONENT EXPECTED
+TO CHOOSE BRANCH
+WITH SMALLEST SCORE
+MACHINE CHOOSES BRANCH
+WITH MOST POSITIVE SCORE
+rates as being better than the book move and the number
+it rates as being poorer. The sides are then reversed and
+the process is repeated. At the end of a book game a cor-
+Telation coefficient is computed, relating the machine’s
+indicated moves to those moves adjudged best by the
+checker masters.16
+It should be noted that the emphasis throughout all of
+these studies has been on learning techniques. The
+temptation to improve the machine’s game by giving it
+standard openings or other man-generated knowledge of
+playing techniques has been consistently resisted. Even
+when book games are played, no weight is given to the
+fact that the moves as listed are presumably the best pos-
+sible moves under the circumstances.
+For demonstration purposes, and also as a means of
+avoiding lost machine time while an opponent is think-
+ing, it is sometimes convenient to play several simul-
+tineous games against different opponents. With the
+Program in its present form the most convenient num-
+ber for this purpose has been found to be six, although
+cight have been played on a number of occasions.
+Games may be started with any initial configuration
+for the board position so that the program may be tested
+on end games, checker puzzles, et cetera. For nonstand-
+ard starting conditions, the program lists the initial piece
+arrangement. From time to time, and at the end of each
+game. the program also tabulates various bits of statisti-
+cal information which assist in the evaluation of playing
+performance.
+Numerous other features have also been added to
+make the program convenient to operate (for details see
+Appendix A), but these have no direct bearing on the
+problem of learning, to which we will now turn our
+attention.
+Rote learning and its variants
+Perhaps the most elementary type of learning worth dis-
+cussing would be a form of rote learning in which the
+program simply saved all of the board positions en-
+countered during play, together with their computed
+scores. Reference could then be made to this memory
+record and a certain amount of computing time might
+be saved. This can hardly be called a very advanced
+form of learning; nevertheless, if the program then util-
+izes the saved time to compute further in depth it will
+improve with time.
+Fortunately, the ability to store board information at
+a ply of 0 and to look up boards at a larger ply provides
+the possibility of looking much farther in advance than
+might otherwise be possible. To understand this, con-
+sider a very simple case where the look-ahead is always
+terminated at a fixed ply, say 3. Assume further that the
+program saves only the board positions encountered
+during the actual play with their associated backed-up",,,,
+Samuel-06.jpg,"scores. Now it is this list of previous board positions that
+is used to look up board positions while at a ply level of
+3 in the subsequent games. If a board position is found,
+its score has, in effect, already been backed up by three
+levels, and if it becomes etfective in determining the
+move to be made, it is a 6-ply score rather than a simple
+3-ply score. This new initial board position with its 6-ply
+score is, in turn, saved and ‘it may be encountered in a
+future game and the score backed up by an additional
+set of three levels, et cetera. This procedure is illustrated
+in Fig. 3. The incorporation of this variation, together
+with the simpler rote-learning feature. results in a fairly
+powerful learning technique which has been studied in
+some detail.
+Several additional features had to be incorporated into
+the program before it was practical to embark on learn-
+ing studies using this storage scheme. In the first place,
+it was necessary to impart a sense of direction to the pro-
+gram in order to force it to press on toward a win. To
+illustrate this, consider the situation of two kings against
+one king, which is a winning combination for practically
+all variations in board positions. In time, the program
+can be assumed to have stored all of these variations,
+each associated with a winning score. Now, if such a
+situation is encountered, the program will look ahead
+along all possible paths and each path will lead to a win-
+ning combination, in spite of the fact that only one of
+the possible initial moves may be along the direct path
+toward the win while all of the rest may be wasting time.
+How is the program to differentiate between these?
+A good solution is to keep a record of the ply value of
+the different board positions at all times and to make a
+further choice between board positions on this basis. If
+ahead, the program can be arranged to push directly
+toward the win while, if behind, it can be arranged to
+adopt delaying tactics. The most recent method used is
+to carry the effective ply along with the score by simply
+decreasing the magnitude of the score a small amount
+each time it is backed-up a ply level during the analyses.
+If the program is now faced with a choice of board posi-
+tions whose scores differ only by the ply number, it will
+automatically make the most advantageous choice,
+choosing a low-ply alternative if winning and a high-ply
+alternative if losing. The significance of this concept of a
+direction sense should not be overlooked. Even without
+“learning,” it is very important. Several of the early at-
+tempts at learning failed because the direction sense was
+not properly taken into account.
+Cataloging and culling stored information
+Since practical considerations limit the number of board
+positions which can be saved, and since the time to
+search through those that are saved can easily become
+unduly long, one must devise systems (1) to catalog
+boards that are saved, (2) to delete redundancies, and
+(3) to discard board positions which are not believed to
+be of much value. The most effective cataloging system
+found to date starts by standardizing all board positions,
+first by reversing the pieces and piece positions if it is a
+board position in which White is to move, so that all
+boards are reported as if it were Black’s turn to move.
+This reduces by nearly a factor of two the number of
+boards which must be saved. Board positions, in which
+all of the pieces are kings, can be reflected about the
+diagonals with a possible fourfold reduction in the num-
+ber which must be saved. A more compact board repre-
+sentation than the one employed during play is also used
+so as to minimize the storage requirements.
+After the board positions are standardized, they are
+grouped into records on the basis of (1) the number of
+pieces on the board, (2) the presence or absence of a
+piece advantage, (3) the side possessing this advantage,
+(4) the presence or absence of kings on the board. :(5) the
+side having the so-called “move,” or opposition advan-
+tage, and finally (6) the first moments of the pieces about
+normal and diagonal axes through the board. During
+play, newly acquired board positions are saved in the
+memory until a reasonable number have been accumu-
+lated, and they are then merged with those on the “mem-
+ory tape” and a new memory tape is produced. Board
+positions within a record are listed in a serial fashion,
+being sorted with respect to the words which define them.
+The records are arranged on the tape in the order that
+they are most likely to be needed during the course of a
+game; board positions with 12 picces to a side coming
+first, et cetera. This method of cataloging is very impor-
+tant because it cuts tape-searching time to a minimum.
+Reference must be made, of course, to the board posi-
+tions already saved, and this is done by reading the cor-
+rect record into the memory and searching through it by
+a dichotomous search procedure. Usually five or more
+records are held in memory at one time, the exact num-
+ber at any time depending upon the lengths of the par-
+ticular records in question. Normally, the program calls
+three or four new records into memory during each new
+move, making room for them as needed, by discarding
+the records which have been held the longest.
+Two different procedures have been found to be of
+value in limiting the number of board positions that are
+saved; one based on the frequency of use, and the sec-
+ond on the ply. To keep track of the frequency of use,
+an age term is carried along with the score. Each new
+board position to be saved is arbitrarily assigned an age.
+When reference is made to a stored board position,
+either to update its score or to utilize it in the look-
+ahead procedure, the age recorded for this board position
+is divided by two. This is called refreshing. Offsetting
+this, each board position is automatically aged by one
+unit at the memory merge times (normally occurring
+about once every 20 moves). When the age of any one
+board position reaches an arbitrary maximum value this
+board position is expunged from the record. This is a
+form of forgetting. New board positions which remain
+unused are soon forgotten, while board positions which
+are used several times in succession will be refreshed to
+such an extent that they will be remembered even if not
+used thereafter for a fairly long period of time. This form
+of refreshing and forgetting was adopted on the basis of",,,,
+Samuel-07.jpg,"Figure 3 Simplified representation of the rote-learning process, in which information saved from a pre-
+vious game is used to increase the effective ply of the backed-up score.
+reflections as to the frailty of human memories. It has
+Proven to be very effective.
+In addition to the limitations imposed by forgetting, it
+seemed desirable to place a restriction on the maximum
+size of any one record. Whenever an arbitrary limit is
+reached, enough of the lowest-ply board positions are
+automatically culled from the record to bring the size
+Well below the maximum.
+Before embarking on a study of the learning capa-
+bilities of the system as just described, it was, of course,
+first necessary to fix the terms and coefficients in the
+evaluation polynomial. To do this, a number of different
+Sets of values were tested by playing through a series
+of book games and computing the move correlation co-
+efficients. These values varied from 0.2 for the poorest
+polynomial tested, to approximately 0.6 for the one
+finally adopted. The selected polynomial contained four
+terms (as contrasted with the use of 16 terms in later
+experiments). In decreasing order of importance these
+were: (1) piece advantage, (2) denial of occupancy,
+(3) mobility, and (4) a hybrid term which combined con-
+trol of the center and piece advancement.
+Rote-learning tests
+After a scoring polynomial was arbitrarily picked, a series
+of games was played, both self-play and play against
+many different individuals (several of these being check-
+er masters). Many book games were also followed, some",,,,
+Samuel-08.jpg,"of these being end games. The program Icarned to play
+a very good opening game and to recognize most win-
+ning and losing end positions many moves in advance.
+although its midgame play was not greatly improved.
+This program now qualifies as a rather better-than-
+average novice, but definitely not as an expert.
+At the present time the memory tape contains some-
+thing over 53,000 board positions (averaging 3.8 words
+each) which have been selected from a much larger
+number of positions by means of the culling techniques
+described. While this is still far from the number which
+would tax the listing and searching procedures used in
+the program, rough estimates, based on the frequency
+with which the saved boards are utilized during normal
+play (these figures being tabulated automatically), indi-
+cate that a library tape containing at least 20 times the
+present number of board positions would be needed to
+improve the midgame play significantly. At the present
+rate of acquisition of new positions this would require
+an inordinate amount of play and, consequently, of
+machine time.17
+The general conclusions which can be drawn from
+these tests are that:
+(1) An effective rote-learning technique must include
+a procedure to give the program a sense of direction,
+and it must contain a refined system for cataloging and
+storing information.
+(2) Rote-learning procedures can be used effectively
+on machines with the data-handling capacity of the
+IBM 704 if the information which must be saved and
+searched does not occupy more than, roughly, one mil-
+lion words, and if not more than one hundred or so ref-
+erences need to be made to this information per minute.
+These figures are, of course, highly dependent upon the
+exact efficiency of cataloging which can de achieved.
+(3) The game of checkers, when played with a simple
+scoring scheme and with rote learning only, requires
+more than this number of words tor master caliber of
+play and, as a consequence, is not completely amenable
+to this treatment on the IBM 704.
+(4) A game, such as checkers, is a suitable vehicle for
+use during the development of learning techniques, and
+it is a very satisfactory device for demonstrating ma-
+chine-learning procedures to the unbelieving.
+Learning procedure involving generalizations
+An obvious way to decrease the amount of storage
+needed to utilize past experience is to generalize on the
+basis of experience and to save only the generalizations.
+This should. of course, be a continuous process if it is to
+be truly effective. and it should involve several levels of
+abstraction. A start has been made in this direction by
+having the program select a subset of possible terms for
+use in the evaluation polynomial and by having the pro-
+n determine the sign and magnitude of the coetli-
+cients Which multiply these parameters. At the present
+time this subset consists of 16 ternis chosen from a list
+of 38 parameters. The piece-advantage term needed to
+define the task is computed separately and. of course, is
+not altered by the program.
+After a number of relatively unsuccessful attempts to
+have the program generalize while playing both sides of
+the game, the program was arranged to act as two dif-
+ferent players, for convenience called Alpha and Beta.
+Alpha generalizes on its experience after each move by
+adjusting the coefficients in its evaluation polynomial and
+by replacing terms which appear to be unimportant by
+new parameters drawn from a reserve list. Beta. on the
+contrary, uses the same evaluation polynomial for the
+duration of any one game. Program Alpha is used to
+play against human opponents, and during self-play
+Alpha and Beta play each other.
+At the end of each self-play game a determination is
+made of the relative playing ability of Alpha, as com-
+pared with Beta, by a neutral portion of the program. If
+Alpha wins—or is adjudged to be ahead when a game is
+otherwise terminated—the then current scoring system
+used by Alpha is given to Beta. If, on the other hand,
+Beta wins or is ahead; this fact is recorded as a black
+mark for Alpha. Whenever Alpha receives an arbitrary
+number of black marks (usually set at three) it is as-
+sumed to be on the wrong track, and a fairly drastic and
+arbitrary change is made in its scoring polynomial (by
+reducing the coefficient of the leading term to zero).
+This action is necessary on occasion, since the entire
+learning process is an attempt to find the highest point
+in multidimensional scoring space in the presence of
+many secondary maxima on which the program can
+become trapped. By manual intervention it is possible to
+return to some previous condition or make some other
+change if it becomes apparent that the learning process
+is not functioning properly. In general, however, the
+program seeks to extricate itself from traps and to im-
+prove more or less continuously.
+The capability of the program can be tested at any
+time by having Alpha play one or more book games
+(with the learning procedure temporarily immobilized)
+and by correlating its play with the recommendations of
+the masters or, more interestingly, by pitting it against
+a human player.
+Polynomial modification procedure
+If Alpha is to make changes in its scoring polynomial,
+it must be given some trustworthy criteria for measuring
+performance. A logical difficulty presents itself, since
+the only measuring parameter available is this same
+scoring polynomial that the Process is designed to im-
+prove. Recourse is had to the peculiar property of the
+look-ahead procedure, which makes it less important for
+the scoring polynomial to be particularly good the
+further ahead the process is continued. This means that
+One can evaluate the relative change in the positions of
+two players, when this evaluation is made over a fairly
+large number of moves, by using a scoring system which
+is much too gross to be significant on a move-by-move
+basis.
+Perhaps an even better way of looking at the matter",,,,
+Samuel-14.jpg,"Another solution would be to utilize the generaliza-
+tion scheme alone until it had become fairly stable and
+to introduce rote learning at this time. It is, of course,
+perfectly feasible to salvage much of the learning which
+has been accumulated by both of the programs studied
+to date. This could be done by appending an abridged
+form of the present memory tape ,to the generalization
+scheme in its present stage of learning and by proceed-
+ing from there in accordance with the first solution
+proposed above.
+Future development
+While it is believed that these tests have reached the
+stage of diminishing returns, some effort might well be
+expended in an attempt to get the program to generate
+its own parameters for the evaluation polynomial. Lack-
+ing a perfectly general procedure, it might still be
+possible to generate terms based on theories as proposed
+by students of the game. This procedure would be at
+variance with the writer’s previous philosophy, but it is
+highly likely that similar compromises will have to be
+made when one attempts to apply learning procedures
+to problems of economic importance.
+Conclusions
+As a result of these experiments one can. say with some
+certainty that it is now possible to devise learning
+schemes which will greatly outperform an average per-
+son and that such learning schemes may eventually be
+economically feasible as applied to real-life problems.
+Acknowledgments
+Many different people have contributed to these studies
+through stimulating discussions of the basic problems.
+From time to time the writer was assisted by several
+different programmers, although most of the detailed
+work was his own. The forbearance of the machine room
+operators and their willingness to play the machine at
+all hours of the day and night are also greatly appreciated.
+Footnotes and References
+1. Some of these are quite profound and have a bearing on
+the questions raised by Nelson Goodman in Fact, Fic-
+tion and Forecast, Harvard University Press, 1954.
+2. Warren S. McCulloch (“The Brain as a Computing Ma-
+chine.” Elec. Eng. 69, 492, 1949) has compared the
+digital computer to the nervous system of a flatworm.
+To extend this comparison to the situation under dis-
+cussion would be unfair to the worm, since its nervous
+system is actually quite highly organized as compared
+with the random-net studies by B. G. Farley and W. A.
+Clarke (“Simulation of Self-Organizing Systems by
+Digital Computers,” IRE PGIT 4, 76, Sept. 1954),
+N. Rochester, J. H. Holland, L. H. Haibt and W. L.
+Duda (“Tests on a Cell Assembly Theory of the Action
+of the Brain Using a Large Digital Computer,” JRE
+Transactions on Information Theory, IT-2, No. 3, 80,
+Sept. 1956), and by F. Rosenblatt (“The Perceptron;
+A Probabilistic Model for Information Storage and Or-
+ganization in the Brain,” Psych. Rev., 6, 65, November
+1958).
+3. The first operating checker program for the IBM 701
+was written in 1952. This was recoded for the IBM 704
+in 1954. The first program with learning was completed
+in 1955 and demonstrated on television on February
+24. 1956.
+4. C. E. Shannon, “Programming a Computer for Playing
+Chess.” Phil. Mag. 41, 256 (March 1950).
+5. A. Bernstein and M. deV. Roberts, “Computer vs. Chess-
+Player.” Scient. Amer. 198, 6 (June 1958).
+6. J. Kister, P. Stein, S. Ulam, W. Walden, M. Wells, “Ex-
+periments in Chess,” Journal of the ACM, 4, 174 (April
+1957).
+7. A. Newell, J. C. Shaw and H. A. Simon, “Chess-Playing
+Programs and the Problem of Complexity,” JBM J. of
+Res. & Devel. 2, 320 (October 1958).
+8. Shannon, loc cit.
+9. C. S. Strachey, “Logical or Non-Mathematical Pro-
+grammes,” Proc. of ACM Meeting at Toronto, Ontario,
+pp. 46-49, Sept. 8-10, 1952.
+10. One of the more interesting of these was to express a
+board position in terms of the first and higher moments
+of the white and black pieces separately about two or-
+thogonal axes on the board. Two such sets of axes were
+tried, one set being parallel to the sides of the board
+and the second set being those through the diagonals.
+11. This apt phraseology was suggested by John McCarthy.
+12. Not the capture of all of the opponent's pieces, as popu-
+larly assumed, although nearly all games end in this
+fashion.
+13. The use of a weight ratio rather than this, conforming
+more closely to the values assumed by many players,
+can lead into certain logical complications, as found by
+Strachey, loc. cit.
+14. The only departure from complete generality of the
+game as programmed is that the program requires the
+opponent to make a permissible move, including the
+taking of a capture if one is offered. “Huffing” is not per-
+mitted.
+15. B. V. Bowden, Faster Than Thought, Chapter 25,
+Pitman, 1953.
+16. This coefficient is defined as C=(L—H)/(L+H), where
+L is the total number of different legal moves which the
+machine judged to be poorer than the indicated book
+moves, and H is the total number which it judged to be
+better than the book moves.
+17. This playing-time requirement, while large in terms of
+cost, would be less than the time which the checker
+master probably spends to acquire his proficiency.
+18. There is a logical fallacy in this argument. The program
+might save only invariant terms which have nothing to do
+with goodness of play; for example, it might count the
+squares on the checkerboard. The forced inclusion of
+the piece-advantage term prevents this.
+19. Each game averaged 68 moves (34 to a side), of which
+approximately 20 caused changes to be made in the
+scoring polynomial.",,,,
+2210.07903-1.jpg,"Abstract
+Detection and recognition of text from scans and other images, commonly denoted as Optical Character Recognition (OCR), is
+a widely used form of automated document processing with a number of methods available. Yet OCR systems still do not
+achieve 100% accuracy, requiring human corrections in applications where correct readout is essential. Advances in machine
+learning enabled even more challenging scenarios of text detection and recognition ""in-the-wild"" — such as detecting text on
+objects from photographs of complex scenes. While the state-of-the-art methods for in-the-wild text recognition are typically
+evaluated on complex scenes, their performance in the domain of documents is typically not published, and a comprehensive
+comparison with methods for document OCR is missing. This paper compares several methods designed for in-the-wild
+text recognition and for document text recognition, and provides their evaluation on the domain of structured documents.
+The results suggest that state-of-the-art methods originally proposed for in-the-wild text detection also achieve competitive
+results on document text detection, outperforming available OCR methods. We argue that the application of document OCR
+should not be omitted in evaluation of text detection and recognition methods.
+Keywords
+Text Detection, Text Recognition, OCR, Optical Character Recognition, Text In The Wild
+1. Introduction
+Optical Character Recognition (OCR) is a classic problem
+in machine learning and computer vision with standard
+methods [1, 2] and surveys [3, 4, 5, 6] available. Recent ad-
+vances in machine learning and its applications, such as
+autonomous driving, scene understanding or large-scale
+image retrieval, shifted the attention of Text Recogni-
+tion research towards the more challenging in-the-wild
+text scenarios, with arbitrarily shaped and oriented in-
+stances of text appearing in complex scenes. Spotting
+text in-the-wild poses challenges such as extreme aspect
+ratios, curved or otherwise irregular text, complex back-
+grounds and clutter in the scenes. Recent methods [7, 8]
+achieve impressive results on challenging text in-the-wild
+datasets like TotalText [9] or CTW-1500 [10], with F1
+reaching 90% and 87% respectively. Although automated
+document processing remains one of the major applica-
+tions of OCR, to the best of our knowledge, the results of
+in-the-wild text detection models were never comprehen-
+sively evaluated on the domain of documents and com-
+pared with methods developed for document OCR. This
+paper reviews several recent Text Detection methods de-
+veloped for the in-the-wild scenario [11, 12, 13, 7, 14, 8],
+evaluates their performance (out of the box and fine-
+tuned) on benchmark document datasets [15, 16, 17], and
+compares their scores against popular Document OCR
+engines [18, 19, 2]. Additionally, we adopt publicly avail-
+able Text Recognition models [20, 21] and combine them
+with Text Detectors to perform two-stage end-to-end text
+recognition for a complete evaluation of text extraction.
+2. Related Work
+2.1. Document OCR
+OCR engines designed for the ""standard"" application do-
+main of documents range from open-source projects such
+as TesseractOCR [2] and PP-OCR [1] to commercial ser-
+vices, including AWS Textract [18] or Google Document
+AI [19]. Despite Document OCR being a classic problem
+with many practical applications, studied for decades
+[22, 23], it still cannot be considered ’solved’ — even the
+best engines struggle to achieve perfect accuracy. The
+methodology behind the commercial cloud services is
+typically not disclosed. The most popular1 open-source
+OCR engine at the time of publication, Tesseract [2] (v4
+and v5), uses a Long Short-Term Memory (LSTM) neural
+network as the default recognition engine.
+2.2. In-the-wild Text Detection
+2.2.1. Regression-based Methods
+Regression-based Methods follow the object classification
+approach, reduced to a single-class problem. TextBoxes
+[25] and TextBoxes++ [26] locate text instances with
+various lengths by using sets of anchors with different
+aspect ratios. Various regression-based methods utilize
+26th Computer Vision Winter Workshop, Robert Sablatnig and Florian
+Kleber (eds.), Krems, Lower Austria, Austria, Feb. 15-17, 2023
+The work was done when Krzysztof Olejniczak was an intern at
+Rossum.
+© 2023 Copyright for this paper by is authors. Use permitted under Creative Commons License
+Attribution 4.0 International (CC BY 40),
+CEUR Workshop Proceedings (CEUR-WS.org)
+Based on the GitHub repository [24] statistics.",,,,
+2210.07903-4.jpg,"Table 1
+Document datasets used in the experiments for text detection and recognition.
+Table 2
+Comparison of the detection performance of the chosen methods on benchmark datasets, with respect to the CLEval metric.
+""P"",""R"" and ""F1"" represent the precision, recall and F1-score, respectively.
+be fully representative due to differences in splitting rules.
+E.g. Document Al creates separate instances for special
+symbols, e.g. brackets, leading to undesired splitting
+of words like ""name(s)"" into several fragments, lower-
+ing precision and recall. On all experimented datasets,
+all fine-tuned in-the-wild text detection models reached
+high prediction scores, proving themselves capable of
+handling text in structured documents. Qualitative anal-
+ysis of detectors’ predictions revealed that the major
+sources of error were incorrect splitting of long text frag-
+ments (e.g e-mail addresses), merging instances in dense
+text regions and missing short stand-alone text, such as
+single-digit numbers.
+4.3. Recognition Results
+End-to-end text recognition results combining fine-tuned
+in-the-wild detectors with SAR [20] and MASTER [36]
+models from MMOCR 0.6.2 Model Zoo [46], and CRNN
+[21] from docTR [45] are listed in Table 3. The XFUND
+dataset was skipped for this experiment since it contains
+Chinese and Japanese characters, for which the recog-
+nition models were not trained. On FUNSD, the end-to-
+end measurement outcomes followed the patterns from
+detection: equipped with CRNN as the recognition en-
+gine, DBNet++ proved to be the best tuned model in
+terms of CLEval end-to-end Recall (93.52%) and F1-score
+(92.23%), losing only to CRAFT in terms of precision.
+Much higher F1-score (+2%) was measured for AWS Tex-
+tract, whose end-to-end results outperformed all of the
+considered algorithms. It is important to note that the
+Recognition Score for AWS Textract reached almost 96%,
+surpassing CRNN’s scores by c.a. 2%. This suggests that
+the recognition engine used in AWS Textract, perform-
+ing much more accurately on FUNSD than the CRNN
+model, may have been a crucial reason for the good
+results. When evaluated on CORD, models with Dif-
+ferentiable Binarization scored the highest marks in all
+end-to-end measures: recall (DBNet++), precision and
+F1-score (DBNet); significantly surpassing the remaining
+methods. Interestingly, despite obtaining the best recall
+rate, DBNet++ did not beat the simpler DBNet in terms
+of end-to-end F1-score. The predictions of regression-
+based approaches, better than segmentation-based ones
+when pure detection scores were measured, appeared to
+combine slightly worse with CRNN. TextBPN++, how-
+ever, remained competitive, achieving similar results
+to DBNet and DBNet++. Recognition Scores of CRNN,
+regardless the choice of in-the-wild detector, exceeded
+93% on FUNSD and 98.5% on CORD, once again demon-
+strating the suitability of applying these algorithms to
+document text recognition. SAR model, not specifically
+trained on documents, presented poorer performance:
+the highest measured F1-scores on FUNSD and CORD
+were 86.36% and 85.25%, respectively, both obtained by
+the combination with TextBPN++. Fine-tuned SAR mod-
+els achieved slightly higher F1-scores reaching 89.49%
+on FUNSD (equipped with DBNet++ as the detector) and
+93.77% on CORD (combined with TextBPN++ detections).
+Despite gaining a noticeable advantage over the base-
+line, fine-tuned SAR models did not surpass the perfor-
+mance of the pre-trained CRNN. Similarly to SAR, the",,,,

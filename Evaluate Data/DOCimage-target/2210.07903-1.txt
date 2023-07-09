@@ -1,0 +1,74 @@
+Abstract
+Detection and recognition of text from scans and other images, commonly denoted as Optical Character Recognition (OCR), is
+a widely used form of automated document processing with a number of methods available. Yet OCR systems still do not
+achieve 100% accuracy, requiring human corrections in applications where correct readout is essential. Advances in machine
+learning enabled even more challenging scenarios of text detection and recognition "in-the-wild" — such as detecting text on
+objects from photographs of complex scenes. While the state-of-the-art methods for in-the-wild text recognition are typically
+evaluated on complex scenes, their performance in the domain of documents is typically not published, and a comprehensive
+comparison with methods for document OCR is missing. This paper compares several methods designed for in-the-wild
+text recognition and for document text recognition, and provides their evaluation on the domain of structured documents.
+The results suggest that state-of-the-art methods originally proposed for in-the-wild text detection also achieve competitive
+results on document text detection, outperforming available OCR methods. We argue that the application of document OCR
+should not be omitted in evaluation of text detection and recognition methods.
+Keywords
+Text Detection, Text Recognition, OCR, Optical Character Recognition, Text In The Wild
+1. Introduction
+Optical Character Recognition (OCR) is a classic problem
+in machine learning and computer vision with standard
+methods [1, 2] and surveys [3, 4, 5, 6] available. Recent ad-
+vances in machine learning and its applications, such as
+autonomous driving, scene understanding or large-scale
+image retrieval, shifted the attention of Text Recogni-
+tion research towards the more challenging in-the-wild
+text scenarios, with arbitrarily shaped and oriented in-
+stances of text appearing in complex scenes. Spotting
+text in-the-wild poses challenges such as extreme aspect
+ratios, curved or otherwise irregular text, complex back-
+grounds and clutter in the scenes. Recent methods [7, 8]
+achieve impressive results on challenging text in-the-wild
+datasets like TotalText [9] or CTW-1500 [10], with F1
+reaching 90% and 87% respectively. Although automated
+document processing remains one of the major applica-
+tions of OCR, to the best of our knowledge, the results of
+in-the-wild text detection models were never comprehen-
+sively evaluated on the domain of documents and com-
+pared with methods developed for document OCR. This
+paper reviews several recent Text Detection methods de-
+veloped for the in-the-wild scenario [11, 12, 13, 7, 14, 8],
+evaluates their performance (out of the box and fine-
+tuned) on benchmark document datasets [15, 16, 17], and
+compares their scores against popular Document OCR
+engines [18, 19, 2]. Additionally, we adopt publicly avail-
+able Text Recognition models [20, 21] and combine them
+with Text Detectors to perform two-stage end-to-end text
+recognition for a complete evaluation of text extraction.
+2. Related Work
+2.1. Document OCR
+OCR engines designed for the "standard" application do-
+main of documents range from open-source projects such
+as TesseractOCR [2] and PP-OCR [1] to commercial ser-
+vices, including AWS Textract [18] or Google Document
+AI [19]. Despite Document OCR being a classic problem
+with many practical applications, studied for decades
+[22, 23], it still cannot be considered ’solved’ — even the
+best engines struggle to achieve perfect accuracy. The
+methodology behind the commercial cloud services is
+typically not disclosed. The most popular1 open-source
+OCR engine at the time of publication, Tesseract [2] (v4
+and v5), uses a Long Short-Term Memory (LSTM) neural
+network as the default recognition engine.
+2.2. In-the-wild Text Detection
+2.2.1. Regression-based Methods
+Regression-based Methods follow the object classification
+approach, reduced to a single-class problem. TextBoxes
+[25] and TextBoxes++ [26] locate text instances with
+various lengths by using sets of anchors with different
+aspect ratios. Various regression-based methods utilize
+26th Computer Vision Winter Workshop, Robert Sablatnig and Florian
+Kleber (eds.), Krems, Lower Austria, Austria, Feb. 15-17, 2023
+The work was done when Krzysztof Olejniczak was an intern at
+Rossum.
+© 2023 Copyright for this paper by is authors. Use permitted under Creative Commons License
+Attribution 4.0 International (CC BY 40),
+CEUR Workshop Proceedings (CEUR-WS.org)
+Based on the GitHub repository [24] statistics.

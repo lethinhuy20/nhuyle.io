@@ -1,0 +1,115 @@
+of these being end games. The program Icarned to play
+a very good opening game and to recognize most win-
+ning and losing end positions many moves in advance.
+although its midgame play was not greatly improved.
+This program now qualifies as a rather better-than-
+average novice, but definitely not as an expert.
+At the present time the memory tape contains some-
+thing over 53,000 board positions (averaging 3.8 words
+each) which have been selected from a much larger
+number of positions by means of the culling techniques
+described. While this is still far from the number which
+would tax the listing and searching procedures used in
+the program, rough estimates, based on the frequency
+with which the saved boards are utilized during normal
+play (these figures being tabulated automatically), indi-
+cate that a library tape containing at least 20 times the
+present number of board positions would be needed to
+improve the midgame play significantly. At the present
+rate of acquisition of new positions this would require
+an inordinate amount of play and, consequently, of
+machine time.17
+The general conclusions which can be drawn from
+these tests are that:
+(1) An effective rote-learning technique must include
+a procedure to give the program a sense of direction,
+and it must contain a refined system for cataloging and
+storing information.
+(2) Rote-learning procedures can be used effectively
+on machines with the data-handling capacity of the
+IBM 704 if the information which must be saved and
+searched does not occupy more than, roughly, one mil-
+lion words, and if not more than one hundred or so ref-
+erences need to be made to this information per minute.
+These figures are, of course, highly dependent upon the
+exact efficiency of cataloging which can de achieved.
+(3) The game of checkers, when played with a simple
+scoring scheme and with rote learning only, requires
+more than this number of words tor master caliber of
+play and, as a consequence, is not completely amenable
+to this treatment on the IBM 704.
+(4) A game, such as checkers, is a suitable vehicle for
+use during the development of learning techniques, and
+it is a very satisfactory device for demonstrating ma-
+chine-learning procedures to the unbelieving.
+Learning procedure involving generalizations
+An obvious way to decrease the amount of storage
+needed to utilize past experience is to generalize on the
+basis of experience and to save only the generalizations.
+This should. of course, be a continuous process if it is to
+be truly effective. and it should involve several levels of
+abstraction. A start has been made in this direction by
+having the program select a subset of possible terms for
+use in the evaluation polynomial and by having the pro-
+n determine the sign and magnitude of the coetli-
+cients Which multiply these parameters. At the present
+time this subset consists of 16 ternis chosen from a list
+of 38 parameters. The piece-advantage term needed to
+define the task is computed separately and. of course, is
+not altered by the program.
+After a number of relatively unsuccessful attempts to
+have the program generalize while playing both sides of
+the game, the program was arranged to act as two dif-
+ferent players, for convenience called Alpha and Beta.
+Alpha generalizes on its experience after each move by
+adjusting the coefficients in its evaluation polynomial and
+by replacing terms which appear to be unimportant by
+new parameters drawn from a reserve list. Beta. on the
+contrary, uses the same evaluation polynomial for the
+duration of any one game. Program Alpha is used to
+play against human opponents, and during self-play
+Alpha and Beta play each other.
+At the end of each self-play game a determination is
+made of the relative playing ability of Alpha, as com-
+pared with Beta, by a neutral portion of the program. If
+Alpha wins—or is adjudged to be ahead when a game is
+otherwise terminated—the then current scoring system
+used by Alpha is given to Beta. If, on the other hand,
+Beta wins or is ahead; this fact is recorded as a black
+mark for Alpha. Whenever Alpha receives an arbitrary
+number of black marks (usually set at three) it is as-
+sumed to be on the wrong track, and a fairly drastic and
+arbitrary change is made in its scoring polynomial (by
+reducing the coefficient of the leading term to zero).
+This action is necessary on occasion, since the entire
+learning process is an attempt to find the highest point
+in multidimensional scoring space in the presence of
+many secondary maxima on which the program can
+become trapped. By manual intervention it is possible to
+return to some previous condition or make some other
+change if it becomes apparent that the learning process
+is not functioning properly. In general, however, the
+program seeks to extricate itself from traps and to im-
+prove more or less continuously.
+The capability of the program can be tested at any
+time by having Alpha play one or more book games
+(with the learning procedure temporarily immobilized)
+and by correlating its play with the recommendations of
+the masters or, more interestingly, by pitting it against
+a human player.
+Polynomial modification procedure
+If Alpha is to make changes in its scoring polynomial,
+it must be given some trustworthy criteria for measuring
+performance. A logical difficulty presents itself, since
+the only measuring parameter available is this same
+scoring polynomial that the Process is designed to im-
+prove. Recourse is had to the peculiar property of the
+look-ahead procedure, which makes it less important for
+the scoring polynomial to be particularly good the
+further ahead the process is continued. This means that
+One can evaluate the relative change in the positions of
+two players, when this evaluation is made over a fairly
+large number of moves, by using a scoring system which
+is much too gross to be significant on a move-by-move
+basis.
+Perhaps an even better way of looking at the matter

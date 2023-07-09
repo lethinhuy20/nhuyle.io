@@ -1,0 +1,29 @@
+Figure 3 Simplified representation of the rote-learning process, in which information saved from a pre-
+vious game is used to increase the effective ply of the backed-up score.
+reflections as to the frailty of human memories. It has
+Proven to be very effective.
+In addition to the limitations imposed by forgetting, it
+seemed desirable to place a restriction on the maximum
+size of any one record. Whenever an arbitrary limit is
+reached, enough of the lowest-ply board positions are
+automatically culled from the record to bring the size
+Well below the maximum.
+Before embarking on a study of the learning capa-
+bilities of the system as just described, it was, of course,
+first necessary to fix the terms and coefficients in the
+evaluation polynomial. To do this, a number of different
+Sets of values were tested by playing through a series
+of book games and computing the move correlation co-
+efficients. These values varied from 0.2 for the poorest
+polynomial tested, to approximately 0.6 for the one
+finally adopted. The selected polynomial contained four
+terms (as contrasted with the use of 16 terms in later
+experiments). In decreasing order of importance these
+were: (1) piece advantage, (2) denial of occupancy,
+(3) mobility, and (4) a hybrid term which combined con-
+trol of the center and piece advancement.
+Rote-learning tests
+After a scoring polynomial was arbitrarily picked, a series
+of games was played, both self-play and play against
+many different individuals (several of these being check-
+er masters). Many book games were also followed, some

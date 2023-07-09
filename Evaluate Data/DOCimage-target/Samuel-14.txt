@@ -1,0 +1,113 @@
+Another solution would be to utilize the generaliza-
+tion scheme alone until it had become fairly stable and
+to introduce rote learning at this time. It is, of course,
+perfectly feasible to salvage much of the learning which
+has been accumulated by both of the programs studied
+to date. This could be done by appending an abridged
+form of the present memory tape ,to the generalization
+scheme in its present stage of learning and by proceed-
+ing from there in accordance with the first solution
+proposed above.
+Future development
+While it is believed that these tests have reached the
+stage of diminishing returns, some effort might well be
+expended in an attempt to get the program to generate
+its own parameters for the evaluation polynomial. Lack-
+ing a perfectly general procedure, it might still be
+possible to generate terms based on theories as proposed
+by students of the game. This procedure would be at
+variance with the writer’s previous philosophy, but it is
+highly likely that similar compromises will have to be
+made when one attempts to apply learning procedures
+to problems of economic importance.
+Conclusions
+As a result of these experiments one can. say with some
+certainty that it is now possible to devise learning
+schemes which will greatly outperform an average per-
+son and that such learning schemes may eventually be
+economically feasible as applied to real-life problems.
+Acknowledgments
+Many different people have contributed to these studies
+through stimulating discussions of the basic problems.
+From time to time the writer was assisted by several
+different programmers, although most of the detailed
+work was his own. The forbearance of the machine room
+operators and their willingness to play the machine at
+all hours of the day and night are also greatly appreciated.
+Footnotes and References
+1. Some of these are quite profound and have a bearing on
+the questions raised by Nelson Goodman in Fact, Fic-
+tion and Forecast, Harvard University Press, 1954.
+2. Warren S. McCulloch (“The Brain as a Computing Ma-
+chine.” Elec. Eng. 69, 492, 1949) has compared the
+digital computer to the nervous system of a flatworm.
+To extend this comparison to the situation under dis-
+cussion would be unfair to the worm, since its nervous
+system is actually quite highly organized as compared
+with the random-net studies by B. G. Farley and W. A.
+Clarke (“Simulation of Self-Organizing Systems by
+Digital Computers,” IRE PGIT 4, 76, Sept. 1954),
+N. Rochester, J. H. Holland, L. H. Haibt and W. L.
+Duda (“Tests on a Cell Assembly Theory of the Action
+of the Brain Using a Large Digital Computer,” JRE
+Transactions on Information Theory, IT-2, No. 3, 80,
+Sept. 1956), and by F. Rosenblatt (“The Perceptron;
+A Probabilistic Model for Information Storage and Or-
+ganization in the Brain,” Psych. Rev., 6, 65, November
+1958).
+3. The first operating checker program for the IBM 701
+was written in 1952. This was recoded for the IBM 704
+in 1954. The first program with learning was completed
+in 1955 and demonstrated on television on February
+24. 1956.
+4. C. E. Shannon, “Programming a Computer for Playing
+Chess.” Phil. Mag. 41, 256 (March 1950).
+5. A. Bernstein and M. deV. Roberts, “Computer vs. Chess-
+Player.” Scient. Amer. 198, 6 (June 1958).
+6. J. Kister, P. Stein, S. Ulam, W. Walden, M. Wells, “Ex-
+periments in Chess,” Journal of the ACM, 4, 174 (April
+1957).
+7. A. Newell, J. C. Shaw and H. A. Simon, “Chess-Playing
+Programs and the Problem of Complexity,” JBM J. of
+Res. & Devel. 2, 320 (October 1958).
+8. Shannon, loc cit.
+9. C. S. Strachey, “Logical or Non-Mathematical Pro-
+grammes,” Proc. of ACM Meeting at Toronto, Ontario,
+pp. 46-49, Sept. 8-10, 1952.
+10. One of the more interesting of these was to express a
+board position in terms of the first and higher moments
+of the white and black pieces separately about two or-
+thogonal axes on the board. Two such sets of axes were
+tried, one set being parallel to the sides of the board
+and the second set being those through the diagonals.
+11. This apt phraseology was suggested by John McCarthy.
+12. Not the capture of all of the opponent's pieces, as popu-
+larly assumed, although nearly all games end in this
+fashion.
+13. The use of a weight ratio rather than this, conforming
+more closely to the values assumed by many players,
+can lead into certain logical complications, as found by
+Strachey, loc. cit.
+14. The only departure from complete generality of the
+game as programmed is that the program requires the
+opponent to make a permissible move, including the
+taking of a capture if one is offered. “Huffing” is not per-
+mitted.
+15. B. V. Bowden, Faster Than Thought, Chapter 25,
+Pitman, 1953.
+16. This coefficient is defined as C=(L—H)/(L+H), where
+L is the total number of different legal moves which the
+machine judged to be poorer than the indicated book
+moves, and H is the total number which it judged to be
+better than the book moves.
+17. This playing-time requirement, while large in terms of
+cost, would be less than the time which the checker
+master probably spends to acquire his proficiency.
+18. There is a logical fallacy in this argument. The program
+might save only invariant terms which have nothing to do
+with goodness of play; for example, it might count the
+squares on the checkerboard. The forced inclusion of
+the piece-advantage term prevents this.
+19. Each game averaged 68 moves (34 to a side), of which
+approximately 20 caused changes to be made in the
+scoring polynomial.

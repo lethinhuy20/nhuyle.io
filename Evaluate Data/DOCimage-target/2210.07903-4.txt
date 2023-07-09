@@ -1,0 +1,65 @@
+Table 1
+Document datasets used in the experiments for text detection and recognition.
+Table 2
+Comparison of the detection performance of the chosen methods on benchmark datasets, with respect to the CLEval metric.
+"P","R" and "F1" represent the precision, recall and F1-score, respectively.
+be fully representative due to differences in splitting rules.
+E.g. Document Al creates separate instances for special
+symbols, e.g. brackets, leading to undesired splitting
+of words like "name(s)" into several fragments, lower-
+ing precision and recall. On all experimented datasets,
+all fine-tuned in-the-wild text detection models reached
+high prediction scores, proving themselves capable of
+handling text in structured documents. Qualitative anal-
+ysis of detectors’ predictions revealed that the major
+sources of error were incorrect splitting of long text frag-
+ments (e.g e-mail addresses), merging instances in dense
+text regions and missing short stand-alone text, such as
+single-digit numbers.
+4.3. Recognition Results
+End-to-end text recognition results combining fine-tuned
+in-the-wild detectors with SAR [20] and MASTER [36]
+models from MMOCR 0.6.2 Model Zoo [46], and CRNN
+[21] from docTR [45] are listed in Table 3. The XFUND
+dataset was skipped for this experiment since it contains
+Chinese and Japanese characters, for which the recog-
+nition models were not trained. On FUNSD, the end-to-
+end measurement outcomes followed the patterns from
+detection: equipped with CRNN as the recognition en-
+gine, DBNet++ proved to be the best tuned model in
+terms of CLEval end-to-end Recall (93.52%) and F1-score
+(92.23%), losing only to CRAFT in terms of precision.
+Much higher F1-score (+2%) was measured for AWS Tex-
+tract, whose end-to-end results outperformed all of the
+considered algorithms. It is important to note that the
+Recognition Score for AWS Textract reached almost 96%,
+surpassing CRNN’s scores by c.a. 2%. This suggests that
+the recognition engine used in AWS Textract, perform-
+ing much more accurately on FUNSD than the CRNN
+model, may have been a crucial reason for the good
+results. When evaluated on CORD, models with Dif-
+ferentiable Binarization scored the highest marks in all
+end-to-end measures: recall (DBNet++), precision and
+F1-score (DBNet); significantly surpassing the remaining
+methods. Interestingly, despite obtaining the best recall
+rate, DBNet++ did not beat the simpler DBNet in terms
+of end-to-end F1-score. The predictions of regression-
+based approaches, better than segmentation-based ones
+when pure detection scores were measured, appeared to
+combine slightly worse with CRNN. TextBPN++, how-
+ever, remained competitive, achieving similar results
+to DBNet and DBNet++. Recognition Scores of CRNN,
+regardless the choice of in-the-wild detector, exceeded
+93% on FUNSD and 98.5% on CORD, once again demon-
+strating the suitability of applying these algorithms to
+document text recognition. SAR model, not specifically
+trained on documents, presented poorer performance:
+the highest measured F1-scores on FUNSD and CORD
+were 86.36% and 85.25%, respectively, both obtained by
+the combination with TextBPN++. Fine-tuned SAR mod-
+els achieved slightly higher F1-scores reaching 89.49%
+on FUNSD (equipped with DBNet++ as the detector) and
+93.77% on CORD (combined with TextBPN++ detections).
+Despite gaining a noticeable advantage over the base-
+line, fine-tuned SAR models did not surpass the perfor-
+mance of the pre-trained CRNN. Similarly to SAR, the

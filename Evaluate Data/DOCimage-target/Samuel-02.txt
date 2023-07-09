@@ -1,0 +1,117 @@
+explorations of every possible path through a checker
+game would involve perhaps 1040 choices of moves
+which. at 3 choices per millimicrosecond, would still take
+1021 centuries to consider.
+(2) A definite goal must exist—the winning of the
+game—and at least one criterion or intermediate goal
+must exist which has a bearing on the achievement of the
+final goal and for which the sign should be known. In
+checkers the goal is to deprive the opponent of the pos-
+sibility of moving, and the dominant criterion is the
+number of pieces of each color on the board. The im-
+portance of having a known criterion will be discussed
+later.
+(3) The rules of the activity must be definite and they
+should be known. Games satisfy this requirement. Un-
+fortunately, many problems of economic importance do
+not. While in principle the determination of the rules can
+be a part of the learning process, this is a complication
+which might well be left until later.
+(4) There should be a background of knowledge con-
+cerning the activity against which the learning progress
+can be tested.
+(5) The activity should be one that is familiar to a
+substantial body of people so that the behavior of the
+Program can be made understandable to them. The
+ability to have the program play against human oppo-
+nents (or antagonists) adds spice to the study and, inci-
+dentally, provides a convincing demonstration for those
+who do not believe that machines can learn.
+Having settled on the game of checkers for our learn-
+ing studies, we must, of course, first program the com-
+puter to play legal checkers; that is, we must express the
+rules of the game in machine language and we must ar-
+range for the mechanics of accepting an opponent’s
+moves and of reporting the computer’s moves, together
+with all pertinent data desired by the experimenter. The
+general methods for doing this were described by
+Shannon8 in 1950 as applied to chess rather than check-
+ers. The basic program used in these experiments is quite
+similar to the program described by Strachey9 in 1952.
+The availability of a larger and faster machine (the
+IBM 704), coupled with many detailed changes in the
+programming procedure, leads to a fairly interesting
+game being played, even without any learning. The basic
+forms of the program will now be described.
+The basic checker-playing program
+The computer plays by looking ahead a few moves and
+by evaluating the resulting board positions much as a
+human player might do. Board positions are stored by
+sets of machine words, four words normally being used
+to represent any particular board position. Thirty-two bit
+positions (of the 36 available in an IBM 704 word) are,
+by convention, assigned to the 32 playing squares on the
+checkerboard, and pieces appearing on these squares are
+represented by 1’s appearing in the assigned bit positions
+of the corresponding word. “Looking-ahead” is prepared
+for by computing all possible next moves, starting with a
+given board position. The indicated moves are explored
+in turn by producing new board-position records cor-
+responding to the conditions after the move in question
+(the old board positions being saved to facilitate a return
+to the starting point) and the process can be repeated.
+This look-ahead procedure is carried several moves in
+advance, as illustrated in Fig. 1. The resulting board po-
+sitions are then scored in terms of their relative value to
+the machine.
+The standard method of scoring the resulting board
+positions has been in terms of a linear polynomial. A
+number of schemes of an abstract sort were tried for
+evaluating board positions without regard to the usual
+checker concepts, but none of these was successful.10
+One way of looking at the various terms in the scoring
+polynomial is that those terms with numerically small
+coefficients should measure criteria related as intermedi-
+ate goals to the criteria measured by the larger terms.
+The achievement of these intermediate goals indicates
+that the machine is going in the right direction, such that
+the larger terms will eventually increase. If the program
+could look far enough ahead we need only ask, “Is the
+machine still in the game?” Since it cannot look this
+far ahead in the usual situation, we must substitute some-
+thing else, say the piece ratio, and let the machine con-
+tinue the look-ahead until one side has gained a piece
+advantage. But even this is not always possible, so we
+have the program test to see if the machine has gained a
+positional advantage, et cetera. Numerical measures of
+these various properties of the board positions are then
+added together (each with an appropriate coefficient
+which defines its relative importance) to form the evalu-
+ation polynomial.
+More specifically, as defined by the rules for checkers,
+the dominant scoring parameter is the inability for one
+side or the other to move.12
+ Since this can occur but once
+in any game, it is tested for separately and is not included
+in the scoring polynomial as tabulated by the computer
+during play. The next parameter to be considered is the
+relative piece advantage. It is always assumed that it is
+to the machine's advantage to reduce the number of the
+opponent's pieces as compared to its own. A reversal of
+the sign of this. term will, in fact, cause the program to
+play “give-away” checkers, and with learning it can only
+learn to play a better and better give-away game. Were
+the sign of this term not known by the programmer it
+could, of course, be determined by tests, but it must be
+fixed by the experimenter and, in effect, it is one of the
+instructions to the machine defining its task. The nu-
+merical computation of the piece advantage has been ar-
+ranged in such a way as to account for the well-known
+property that it is usually to one’s advantage to trade
+pieces when one is ahead and to avoid trades when
+behind. Furthermore, it is assumed that kings are more
+valuable than pieces, the relative weights assigned to
+them being three to two.13 This ratio means that the
+program will trade three men for two kings, or two
+kings for three men, if by so doing it can obtain some
+positional advantage.

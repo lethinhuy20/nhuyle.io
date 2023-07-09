@@ -1,0 +1,60 @@
+MACHINE CHOOSES BRANCH
+WITH LARGEST SCORE
+OPPONENT EXPECTED
+TO CHOOSE BRANCH
+WITH SMALLEST SCORE
+MACHINE CHOOSES BRANCH
+WITH MOST POSITIVE SCORE
+rates as being better than the book move and the number
+it rates as being poorer. The sides are then reversed and
+the process is repeated. At the end of a book game a cor-
+Telation coefficient is computed, relating the machine’s
+indicated moves to those moves adjudged best by the
+checker masters.16
+It should be noted that the emphasis throughout all of
+these studies has been on learning techniques. The
+temptation to improve the machine’s game by giving it
+standard openings or other man-generated knowledge of
+playing techniques has been consistently resisted. Even
+when book games are played, no weight is given to the
+fact that the moves as listed are presumably the best pos-
+sible moves under the circumstances.
+For demonstration purposes, and also as a means of
+avoiding lost machine time while an opponent is think-
+ing, it is sometimes convenient to play several simul-
+tineous games against different opponents. With the
+Program in its present form the most convenient num-
+ber for this purpose has been found to be six, although
+cight have been played on a number of occasions.
+Games may be started with any initial configuration
+for the board position so that the program may be tested
+on end games, checker puzzles, et cetera. For nonstand-
+ard starting conditions, the program lists the initial piece
+arrangement. From time to time, and at the end of each
+game. the program also tabulates various bits of statisti-
+cal information which assist in the evaluation of playing
+performance.
+Numerous other features have also been added to
+make the program convenient to operate (for details see
+Appendix A), but these have no direct bearing on the
+problem of learning, to which we will now turn our
+attention.
+Rote learning and its variants
+Perhaps the most elementary type of learning worth dis-
+cussing would be a form of rote learning in which the
+program simply saved all of the board positions en-
+countered during play, together with their computed
+scores. Reference could then be made to this memory
+record and a certain amount of computing time might
+be saved. This can hardly be called a very advanced
+form of learning; nevertheless, if the program then util-
+izes the saved time to compute further in depth it will
+improve with time.
+Fortunately, the ability to store board information at
+a ply of 0 and to look up boards at a larger ply provides
+the possibility of looking much farther in advance than
+might otherwise be possible. To understand this, con-
+sider a very simple case where the look-ahead is always
+terminated at a fixed ply, say 3. Assume further that the
+program saves only the board positions encountered
+during the actual play with their associated backed-up

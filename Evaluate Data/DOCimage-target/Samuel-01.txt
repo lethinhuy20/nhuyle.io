@@ -1,0 +1,72 @@
+Some Studies in Machine Learning
+Using the Game of Checkers
+Arthur L. Samuel
+Abstract: Two machine-learning procedures have been investigated in some detail using the game of
+checkers. Enough work has been done to verify the fact that a computer can be programmed so that it will
+learn to play a better game of checkers than can be played by the person who wrote the program. Further-
+more, it can learn to do this in a remarkably short period of time (8 or 10 hours of machine-playing time)
+when given only the rules of the game, a sense of direction, and a redundant and incomplete list of
+parameters which are thought to have something to do with the game, but whose correct signs and relative
+weights are unknown and unspecified. The principles of machine learning verified by these ‘experiments
+are, of course, applicable to many other situations.
+Introduction
+The studies reported here have been concerned with the
+programming of a digital computer to behave in a way
+which. if done by human beings or animals, would be
+described as involving the process of learning. While
+this is not the place to dwell on the importance of ma-
+chine-learning procedures, or to discourse on the philo-
+sophical aspects,1 there is obviously a very large amount
+of work. now done by people, which is quite trivial in its
+demands on the intellect but does, nevertheless, involve
+some learning. We have at our command computers with
+adequate data-handling ability and with sufficient com-
+putational speed to make use of machine-learning tech-
+niques. but our knowledge of the basic principles of these
+techniques is still rudimentary. Lacking such knowledge,
+it is necessary to specify methods of problem solution in
+minute and exact detail, a time-consuming and costly
+procedure, Programming computers to learn from ex-
+perience should eventually eliminate the need for much
+of this detailed programming effort.
+General methods of approach
+At the outset it might be well to distinguish sharply be-
+tween two general approaches to the problem of machine
+learning. One method, which might be called the Neural-
+Net Approach. deals with the possibility of inducing
+learned behavior into a randomly connected switching
+net (or its simulation on a digital computer) as a result
+of a reward-and-punishment routine. A second, and
+Much more efficient approach, is to produce the equiva-
+lent of a highly organized network which has been de-
+signed to learn only certain specific things. The first
+method should lead to the development of general-pur-
+pose learning machines. A comparison between the size
+of the switching nets that can be reasonably constructed
+or simulated at the present time and the size of the neural
+nets used by animals, suggests that we have a long way
+to go before we obtain practical devices.2 The second
+procedure requires reprogramming for each new applica-
+tion, but it is capable of realization at the present time.
+The experiments to be described here were based on this
+second approach.
+Choice of problem
+For some years the writer has devoted his spare time to
+the subject of machine learning and has concentrated on
+the development of learning procedures as applied to
+games.3 A game provides a convenient vehicle for such
+study as contrasted with a problem taken from life, since
+many of the complications of detail are removed.
+Checkers, rather than chess,4-7 was chosen because the
+simplicity of its rules permits greater emphasis to be
+placed on learning techniques. Regardless of the relative
+merits of the two games as intellectual pastimes, it is fair
+to state that checkers contains all of the basic characteris-
+tics of an intellectual activity in which heuristic proce-
+dures and learning processes can play a major role and
+in which these processes can be evaluated.
+Some of these characteristics might well be enumer-
+ated. They are:
+(1) The activity must not be deterministic in the prac-
+tical sense. There exists no known algorithm which will
+guarantee a win or a draw in checkers, and the complete

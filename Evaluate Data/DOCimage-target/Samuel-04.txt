@@ -1,0 +1,116 @@
+The choice for the parameters to follow this first term
+of the scoring polynomial and their coctlicients then be-
+comes a matter of concern. Two courses are open—
+cither the experimenter can decide what these subse-
+quent terms are to be, or he can arrange for the program
+to make the selection. We will discuss the first case in
+some detail in connection with the rote-learning studies
+and leave for a later section the discussion of various
+program methods of selecting parameters and adjusting
+their coefficients.
+It is not satisfactory to select the initial move which
+leads to the board position with the highest score, since
+to reach this position would require the cooperation of
+the opponent. Instead. an analysis must be made pro-
+ceeding backward from the evaluated board positions
+through the “tree” of possible moves, each time with
+consideration of the intent of the side whose move is
+being examined, assuming that the opponent would
+always attempt to minimize the machine’s score while
+the machine acts to maximize its score. At each branch
+point, then, the corresponding board position is given
+the score of the board position which would result from
+the most favorable move. Carrying this “minimax” pro-
+cedure back to the starting point results in the selection
+of a “best move.” The score of the board position at the
+end of the most likely chain is also brought back, and for
+learning purposes this score is now assigned to the pres-
+ent board position. This process is shown in Fig. 2. The
+best move is executed, reported on the console lights,
+and tabulated by the printer.
+The opponent is then permitted to make his move,
+which can be communicated to the machine either by
+means of console switches or by means of punched
+cards. The computer verifies the legality of the oppo-
+nent’s move, rejecting! or accepting it, and the process
+is repeated. When the program can look ahead and pre-
+dict a win, this fact is reported on the printer. Similarly,
+the program concedes when it sces that it is going to
+lose.
+Ply limitations
+Playing-time considerations make it necessary to limit
+the look-ahead distance to some fairly small value. This
+distance is defined as the ply (a ply of 2 consisting of
+one proposed move by the machine and the anticipated
+reply by the opponent). The ply is not fixed but depends
+upon the dynamics of the situation, and it varies from
+move to move and from branch to branch during the
+move analysis. A great many schemes of adjusting the
+look-ahead distance have been tried at various times,
+some of them quite complicated. The most effective one,
+although quite detailed, is simple in concept and is as
+follows. The program always looks ahead a minimum
+distance, which for the opening game and without learn-
+ing is usually set at three moves. At this minimum ply
+the program will evaluate the board position if none of
+the following conditions occurs: (1) the next move is a
+jump, (2) the last move was a jump, or (3) an exchange
+offer is possible. If any one of these conditions exists, the
+program continues looking ahead. At a ply of 4 the
+program will stop and evaluate the resulting board posi-
+tion if conditions (1) and (3) above are not met. Ata ply
+of 5 or greater, the program stops the look-ahead when-
+ever the next ply level does not offer a jump. At a ply
+of 11 or greater, the program will terminate the look-
+ahead, even if the next move is to be a jump, should one
+side at this time be ahead by more than two kings (to
+prevent the needless exploration of obviously losing or
+winning sequences). The program stops at a ply of 20
+regardless of all conditions (since the memory space for
+the look-ahead moves is then exhausted) and an adjust-
+ment in score is made to allow for the pending jump.
+Finally, an adjustment is made in the levels of the break
+points between the different conditions when time is
+saved through rote learning (see below) and when the
+total number of pieces on the board falls below an arbi-
+trary number. All break points are determined by single
+data words which can be changed at any time by manual
+intervention.
+This tying of the ply with board conditions achieves
+three desired results. In the first place. it permits board
+evaluations to be made under conditions of relative sta-
+bility for so-called dead positions, as defined by Turing.15
+Secondly, it causes greater surveillance of those paths
+which offer better opportunities for gaining or losing an
+advantage. Finally, since branching is usually seriously
+restricted by a jump situation, the total number of board
+positions and moves to be considered is still held down
+to a reasonable number and is more equitably distributed
+between the various possible initial moves.
+As a practical matter, machine-playing time usually
+has been limited to approximately 30 seconds per move.
+Elaborate table-lookup procedures, fast sorting and
+searching procedures, and a variety of new programming
+tricks were developed, and full use was made of all of the
+resources of the IBM 704 to increase the operating speed
+as much as possible. One can, of course, set the playing
+time at any desired value by adjustments of the permitted
+ply; too small a ply results in a bad game and too large
+a ply makes the game unduly costly in terms of machine
+time.
+Other modes of play
+For study purposes the program was written to accom-
+modate several variations of this basic plan. One of these
+permits the program to play against itself, that is. to play
+both sides of the game. This mode of play has been
+found to be especially good during the early stages of
+learning.
+The program can also follow book games presented to
+it either on cards or on magnetic tape. When operating
+in this mode, the program decides at each point in the
+game on its next move in the usual way and reports this
+proposed move. Instead of actually making this move.
+the program refers to the stored record of a book game
+and makes the book move. The program records its
+evaluation of the two moves, and it also counts and re-
+ports the number of possible moves which the program
